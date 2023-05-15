@@ -25,10 +25,11 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 RUN grep -v "\- atomic" conf/default.yml > conf/local.yml
 
 # Install golang
-RUN curl -L https://go.dev/dl/go1.17.6.linux-amd64.tar.gz -o go1.17.6.linux-amd64.tar.gz
-RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.17.6.linux-amd64.tar.gz;
+RUN curl -L https://go.dev/dl/go1.20.3.linux-amd64.tar.gz -o go1.20.3.linux-amd64.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz;
 ENV PATH="${PATH}:/usr/local/go/bin"
 RUN go version;
+RUN go install mvdan.cc/garble@latest
 
 # Compile default sandcat agent binaries, which will download basic golang dependencies.
 WORKDIR /usr/src/app/plugins/sandcat
@@ -84,4 +85,4 @@ EXPOSE 8022
 # Default FTP port for FTP C2 channel
 EXPOSE 2222
 
-ENTRYPOINT ["python3", "server.py"]
+ENTRYPOINT ["python3", "server.py", "-l", "DEBUG", "--insecure"]

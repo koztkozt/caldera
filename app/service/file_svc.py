@@ -157,7 +157,7 @@ class FileSvc(FileServiceInterface, BaseService):
                 name, value = cflag.split('=')
                 env[name] = value
 
-        args = ['go', 'build']
+        args = ['/root/go/bin/garble', 'build']
         if buildmode:
             args.append(buildmode)
         if ldflags:
